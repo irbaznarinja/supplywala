@@ -16,7 +16,11 @@
 <meta name="description" content="SupplyWala supplies medical, hospital, hardware and cleaning products in Karachi at real local prices. 15 years of supply experience. Order online or via WhatsApp.">
 
 <!-- Canonical Tag -->
-<link rel="canonical" href="https://www.supplywala.store">
+<link rel="canonical" href="https://www.supplywala.store/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="geo.region" content="PK-SD">
+<meta name="geo.placename" content="Karachi">
+<meta name="language" content="English">
 
 <!-- Open Graph Tags -->
 <meta property="og:title" content="SupplyWala — Medical & Industrial Supplies Karachi">
@@ -24,8 +28,10 @@
 <meta property="og:image" content="https://www.supplywala.store/og-image.jpg">
 <meta property="og:url" content="https://www.supplywala.store">
 <meta property="og:type" content="website">
+<meta property="og:locale" content="en_PK">
 <meta property="og:site_name" content="SupplyWala">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.supplywala.store/og-image.jpg">
 <meta name="twitter:title" content="SupplyWala — Medical & Industrial Supplies Karachi">
 <meta name="twitter:description" content="Best prices on hospital, medical, cleaning and industrial supplies in Karachi.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230A1F3C'/%3E%3Ctext x='32' y='50' font-family='Arial Black,Arial,sans-serif' font-size='52' font-weight='900' fill='%2322C55E' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E">
@@ -34,8 +40,8 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <!-- hreflang for Pakistan -->
-<link rel="alternate" hreflang="en-PK" href="https://www.supplywala.store">
-<link rel="alternate" hreflang="x-default" href="https://www.supplywala.store">
+<link rel="alternate" hreflang="en-PK" href="https://www.supplywala.store/">
+<link rel="alternate" hreflang="x-default" href="https://www.supplywala.store/">
 <!-- Organization Schema -->
 <script type="application/ld+json">
 {
@@ -72,6 +78,58 @@
   "sameAs": [
     "https://wa.me/923327894533"
   ]
+}
+</script>
+<!-- Local Store Schema -->
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": [
+  "Store",
+  "LocalBusiness"
+ ],
+ "@id": "https://www.supplywala.store/#store",
+ "name": "SupplyWala",
+ "alternateName": "Supply Wala",
+ "slogan": "Sasta Nahi, Sahi Hai",
+ "url": "https://www.supplywala.store/",
+ "image": "https://www.supplywala.store/og-image.jpg",
+ "description": "Medical, hospital, cleaning, hardware and industrial supplies in Karachi at honest local prices. Cash on delivery, delivery across Karachi in 2 to 4 working days.",
+ "telephone": "+92-332-7894533",
+ "email": "info@supplywala.store",
+ "address": {
+  "@type": "PostalAddress",
+  "streetAddress": "Lohar Street Rc4/422, Younus Manzil, Ground Floor, Ranchorline Gazderabad, Saddar Town",
+  "addressLocality": "Karachi",
+  "addressRegion": "Sindh",
+  "postalCode": "74400",
+  "addressCountry": "PK"
+ },
+ "areaServed": {
+  "@type": "City",
+  "name": "Karachi"
+ },
+ "openingHoursSpecification": [
+  {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+   ],
+   "opens": "08:00",
+   "closes": "19:00"
+  }
+ ],
+ "currenciesAccepted": "PKR",
+ "paymentAccepted": "Cash on Delivery, Bank Transfer, JazzCash, EasyPaisa",
+ "priceRange": "Rs. 100 - Rs. 20,000",
+ "sameAs": [
+  "https://wa.me/923327894533"
+ ]
 }
 </script>
 <!-- FAQ Schema -->
@@ -260,7 +318,7 @@
   "url": "https://www.supplywala.store",
   "potentialAction": {
     "@type": "SearchAction",
-    "target": "https://www.supplywala.store/#products?q={search_term_string}",
+    "target": "https://www.supplywala.store/products/?q={search_term_string}",
     "query-input": "required name=search_term_string"
   }
 }
@@ -282,6 +340,19 @@ html{overflow-x:hidden;max-width:100%;}
 body{font-family:'Poppins',sans-serif;background:var(--white);color:var(--gray-800);-webkit-font-smoothing:antialiased;overflow-x:hidden;max-width:100%;width:100%;}
 :focus-visible{outline:2px solid var(--green);outline-offset:3px;}
 
+a.pc-link{color:inherit;text-decoration:none;}
+/* Pre-rendered page content for search engines; replaced by the app once it loads */
+.sw-ssr{max-width:1100px;margin:0 auto;padding:32px 20px 60px;font-family:'Poppins',sans-serif;color:var(--gray-700);}
+.sw-ssr h1{font-size:28px;color:var(--navy);margin:8px 0 12px;line-height:1.25;}
+.sw-ssr .sw-crumbs{font-size:12px;color:var(--gray-500);}
+.sw-ssr .sw-crumbs a,.sw-ssr a{color:var(--green-dark);text-decoration:none;}
+.sw-ssr .sw-pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-top:18px;}
+.sw-ssr .sw-pcard{border:1.5px solid var(--gray-200);border-radius:12px;padding:12px;background:#fff;display:block;color:var(--navy);}
+.sw-ssr .sw-pcard img{width:100%;height:160px;object-fit:contain;}
+.sw-ssr .sw-price{font-size:22px;font-weight:800;color:var(--navy);margin:10px 0;}
+.sw-ssr .sw-pmain{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;}
+.sw-ssr .sw-pmain img{width:100%;max-height:420px;object-fit:contain;background:#fff;border-radius:12px;}
+@media(max-width:760px){.sw-ssr .sw-pmain{grid-template-columns:1fr;}}
 /* INFO PAGES (About, Contact, Privacy, Refund, Shipping, FAQ) */
 .faq-item{background:#fff;border:1.5px solid var(--gray-200);border-radius:10px;margin-bottom:10px;overflow:hidden;}
 .faq-item summary{cursor:pointer;list-style:none;padding:14px 44px 14px 16px;font-size:14px;font-weight:600;color:var(--navy);position:relative;}
@@ -1474,17 +1545,17 @@ body.adm-open{overflow:hidden;}
     </div>
     <div class="fcol">
       <h5>Company</h5>
-      <a onclick="showPage('about')" style="cursor:pointer;">About Us</a>
+      <a href="/about/" onclick="event.preventDefault();showPage('about')" style="cursor:pointer;">About Us</a>
 
-      <a onclick="showPage('delivery')" style="cursor:pointer;">Delivery Info</a>
-      <a onclick="showPage('faq')" style="cursor:pointer;">FAQ &amp; Help</a>
-      <a onclick="showPage('contact')" style="cursor:pointer;">Contact Us</a>
+      <a href="/delivery/" onclick="event.preventDefault();showPage('delivery')" style="cursor:pointer;">Delivery Info</a>
+      <a href="/faq/" onclick="event.preventDefault();showPage('faq')" style="cursor:pointer;">FAQ &amp; Help</a>
+      <a href="/contact/" onclick="event.preventDefault();showPage('contact')" style="cursor:pointer;">Contact Us</a>
     </div>
     <div class="fcol">
       <h5>Policies</h5>
-      <a onclick="showPage('privacy')" style="cursor:pointer;">Privacy Policy</a>
-      <a onclick="showPage('refund')" style="cursor:pointer;">Refund &amp; Return Policy</a>
-      <a onclick="showPage('shipping')" style="cursor:pointer;">Shipping Policy</a>
+      <a href="/privacy/" onclick="event.preventDefault();showPage('privacy')" style="cursor:pointer;">Privacy Policy</a>
+      <a href="/refund/" onclick="event.preventDefault();showPage('refund')" style="cursor:pointer;">Refund &amp; Return Policy</a>
+      <a href="/shipping/" onclick="event.preventDefault();showPage('shipping')" style="cursor:pointer;">Shipping Policy</a>
     </div>
     <div class="fcol">
       <h5>Contact</h5>
@@ -3274,10 +3345,10 @@ function renderCatsCarousel(){
   const track = document.getElementById('catsTrack');
   if(!track) return;
   track.innerHTML = SITE_CATEGORIES.map(c=>`
-    <div class="cat-card" onclick="showPage('products','${c.key}')">
+    <div class="cat-card" data-cat="${esc(c.key)}" onclick="showPage('products',this.dataset.cat)">
       <div class="cat-icon-wrap">${getCatIconSvg(c.icon||'box', 28)}</div>
-      <div class="cat-name">${esc(c.name)}</div>
-      <div class="cat-desc">${(c.desc||c.description||'')}</div>
+      <div class="cat-name"><a class="pc-link" href="${swUrl('products', c.key)}" onclick="event.preventDefault()">${esc(c.name)}</a></div>
+      <div class="cat-desc">${esc(c.desc||c.description||'')}</div>
     </div>`).join('');
   // Re-init carousel dots
   if(typeof initCatsCarousel === 'function') initCatsCarousel();
@@ -3296,14 +3367,14 @@ function renderSidebarCatFilters(){
   if(!el) return;
   el.innerHTML = SITE_CATEGORIES.map(c=>{
     const cnt = (typeof PRODUCTS !== 'undefined' ? PRODUCTS : []).filter(p=>p.cat===c.key).length;
-    return `<label class="filter-check"><input type="checkbox" class="fc-cat" value="${c.key}" onchange="applyFilters()"><span>${esc(c.name)}</span><span class="cnt">${cnt}</span></label>`;
+    return `<label class="filter-check"><input type="checkbox" class="fc-cat" value="${c.key}" onchange="_swCat=null;applyFilters()"><span>${esc(c.name)}</span><span class="cnt">${cnt}</span></label>`;
   }).join('');
 }
 
 function renderFooterCatLinks(){
   const el = document.getElementById('footerCatLinks');
   if(!el) return;
-  el.innerHTML = SITE_CATEGORIES.map(c=>`<a onclick="showPage('products','${c.key}')" style="cursor:pointer;">${esc(c.name)}</a>`).join('');
+  el.innerHTML = SITE_CATEGORIES.map(c=>`<a href="${swUrl('products', c.key)}" data-cat="${esc(c.key)}" onclick="event.preventDefault();showPage('products',this.dataset.cat)" style="cursor:pointer;">${esc(c.name)}</a>`).join('');
 }
 
 /* ── Admin Categories ── */
@@ -3476,24 +3547,28 @@ function updatePageTitle(page, cat, productName, productObj){
   if(twTitleTag) twTitleTag.content = DEFAULT_TW_TITLE;
   if(ogImageTag) ogImageTag.content = DEFAULT_OG_IMAGE;
 
+  if(page!=='product' && page!=='admin') swSetCanonical(swUrl(page, cat));
   if(page==='home'){
     document.title = base+' — Sasta Nahi, Sahi Hai '+suffix;
     if(metaDesc) metaDesc.content = 'SupplyWala supplies medical, hospital, hardware and cleaning products in Karachi at real local prices. 15 years of supply experience. Order online or via WhatsApp.';
     if(schemaProduct) schemaProduct.textContent = '{}';
     if(schemaBreadcrumb) schemaBreadcrumb.textContent = JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.supplywala.store"}]});
   } else if(page==='products' && cat){
-    document.title = catNames[cat]+' — '+base+' '+suffix;
-    if(metaDesc) metaDesc.content = 'Buy '+catNames[cat]+' supplies in Karachi at best prices. SupplyWala — Pakistan\'s honest supply partner.';
-    if(schemaBreadcrumb) schemaBreadcrumb.textContent = JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.supplywala.store"},{"@type":"ListItem","position":2,"name":catNames[cat],"item":"https://www.supplywala.store/#products"}]});
+    const _cn = ((SITE_CATEGORIES.find(c=>c.key===cat)||{}).name) || catNames[cat] || cat;
+    const _nm = /suppl/i.test(_cn) ? _cn : _cn+' Supplies';
+    document.title = [_nm+' in Karachi | Price in Pakistan | SupplyWala', _nm+' in Karachi | SupplyWala'].find(t=>t.length<=65) || _nm+' | SupplyWala';
+    if(metaDesc) metaDesc.content = 'Buy '+_nm+' in Karachi at honest local prices. Cash on delivery, free delivery over Rs. 5,000.';
+    if(schemaBreadcrumb) schemaBreadcrumb.textContent = JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.supplywala.store/"},{"@type":"ListItem","position":2,"name":"Products","item":"https://www.supplywala.store/products/"},{"@type":"ListItem","position":3,"name":_nm,"item":"https://www.supplywala.store/category/"+encodeURIComponent(cat)+"/"}]});
   } else if(page==='products'){
     document.title = 'All Products — '+base+' '+suffix;
     if(metaDesc) metaDesc.content = 'Browse all medical, hospital, hardware, cleaning and industrial supplies in Karachi. Best prices guaranteed. SupplyWala.';
-    if(schemaBreadcrumb) schemaBreadcrumb.textContent = JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.supplywala.store"},{"@type":"ListItem","position":2,"name":"All Products","item":"https://www.supplywala.store/#products"}]});
+    if(schemaBreadcrumb) schemaBreadcrumb.textContent = JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.supplywala.store"},{"@type":"ListItem","position":2,"name":"All Products","item":"https://www.supplywala.store/products/"}]});
   } else if(page==='product' && productName){
-    document.title = (productObj && productObj.seoTitle) ? productObj.seoTitle : productName+' — '+base+' | Buy in Karachi';
+    document.title = (productObj && productObj.seoTitle && productObj.seoTitle.trim().length>=10) ? productObj.seoTitle : (function(n){ const opts=[n+' Price in Pakistan | Buy in Karachi | SupplyWala', n+' Price in Pakistan | SupplyWala', n+' | SupplyWala']; return opts.find(t=>t.length<=65) || n.slice(0,52)+' | SupplyWala'; })(productName);
     if(metaDesc) metaDesc.content = (productObj && productObj.seoDescription) ? productObj.seoDescription : ((productObj && productObj.desc ? productObj.desc.substring(0,150)+'. ' : '')+productName+' available in Karachi. Order online or via WhatsApp from SupplyWala.');
     // Update canonical tag to product URL
-    const productUrl = 'https://www.supplywala.store/?product='+(productObj.slug||productObj.id);
+    const productUrl = 'https://www.supplywala.store/product/'+encodeURIComponent(productObj.slug||productObj.id)+'/';
+    const _ogu=document.querySelector('meta[property="og:url"]'); if(_ogu) _ogu.content=productUrl;
     const canonical = document.querySelector('link[rel="canonical"]');
     if(canonical) canonical.href = productUrl;
     // Update og:url to product URL
@@ -3522,15 +3597,19 @@ function updatePageTitle(page, cat, productName, productObj){
           "@type":"Offer",
           "price": productObj.price,
           "priceCurrency":"PKR",
-          "availability":"https://schema.org/InStock",
+          "availability": productObj.stock_status==='out_of_stock' ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
+          "url": productUrl,
+          "itemCondition":"https://schema.org/NewCondition",
           "seller":{"@type":"Organization","name":"SupplyWala"}
         }
       });
     }
     // Breadcrumb now uses correct ?product=slug URL
-    if(schemaBreadcrumb) schemaBreadcrumb.textContent = JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.supplywala.store"},{"@type":"ListItem","position":2,"name":"Products","item":"https://www.supplywala.store/?products"},{"@type":"ListItem","position":3,"name":productName,"item":productUrl}]});
+    if(schemaBreadcrumb) schemaBreadcrumb.textContent = JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.supplywala.store"},{"@type":"ListItem","position":2,"name":"Products","item":"https://www.supplywala.store/products/"},{"@type":"ListItem","position":3,"name":productName,"item":productUrl}]});
+  } else if(SW_PAGE_TITLES[page] && page!=='faq'){
+    document.title = SW_PAGE_TITLES[page];
   } else if(page==='faq'){
-    document.title = 'FAQ & Help — '+base+' '+suffix;
+    document.title = SW_PAGE_TITLES.faq;
     if(metaDesc) metaDesc.content = 'Answers about ordering, delivery charges, payment, returns and bulk orders at SupplyWala, Karachi.';
   } else if(page==='checkout'){
     document.title = 'Checkout — '+base;
@@ -3540,6 +3619,50 @@ function updatePageTitle(page, cat, productName, productObj){
   } else {
     document.title = base+' — Sasta Nahi, Sahi Hai '+suffix;
   }
+}
+
+/* ── CLEAN URLS (SEO): /product/slug/, /category/key/, /products/, /faq/ ... ── */
+const SW_INFO_PAGES=['about','contact','privacy','refund','shipping','delivery','faq'];
+const SW_PAGE_TITLES={
+  faq:'FAQ & Help: Ordering, Delivery & Payment | SupplyWala Karachi',
+  about:'About SupplyWala: 15 Years Supplying Karachi Hospitals & Businesses',
+  contact:'Contact SupplyWala Karachi: WhatsApp +92 332 7894533',
+  delivery:'Delivery Info: Delivery Across Karachi in 2-4 Days | SupplyWala',
+  shipping:'Shipping Policy | SupplyWala Karachi',
+  refund:'Refund & Return Policy | SupplyWala Karachi',
+  privacy:'Privacy Policy | SupplyWala'
+};
+function swUrl(page, cat, slug){
+  if(page==='product' && slug) return '/product/'+encodeURIComponent(slug)+'/';
+  if(page==='products') return cat ? '/category/'+encodeURIComponent(cat)+'/' : '/products/';
+  if(SW_INFO_PAGES.includes(page)) return '/'+page+'/';
+  if(page==='checkout') return '/#checkout';
+  return '/';
+}
+function swPush(state, url){
+  const t = new URL(url, location.origin);
+  if(location.pathname===t.pathname && location.hash===t.hash) history.replaceState(state,'',url);
+  else history.pushState(state,'',url);
+}
+function swClearSSR(){
+  const a=document.getElementById('sw-ssr'); if(a) a.remove();
+  const b=document.getElementById('sw-route-style'); if(b) b.remove();
+}
+function swSetCanonical(path){
+  const full='https://www.supplywala.store'+String(path).replace(/#.*$/,'');
+  const c=document.querySelector('link[rel="canonical"]'); if(c) c.href=full;
+  const og=document.querySelector('meta[property="og:url"]'); if(og) og.content=full;
+}
+function swParseRoute(){
+  let parts=[];
+  try { parts=location.pathname.split('/').filter(Boolean).map(decodeURIComponent); } catch(e){}
+  if(parts[0]==='product' && parts[1]) return {type:'product', slug:parts[1]};
+  if(parts[0]==='category' && parts[1]) return {type:'category', key:parts[1]};
+  if(parts[0]==='products') return {type:'products'};
+  if(parts.length===1 && SW_INFO_PAGES.includes(parts[0])) return {type:'page', page:parts[0]};
+  const qp=new URLSearchParams(location.search).get('product');
+  if(qp) return {type:'product', slug:qp};
+  return null;
 }
 
 function showPage(page, cat){
@@ -3554,21 +3677,20 @@ function showPage(page, cat){
       const el=document.getElementById('page-'+p);
       if(el) el.style.display = page===p ? 'block' : 'none';
     });
-    // Set hash URL so it's shareable and browser back works
-    const hash = page==='home' ? '#home' : page==='products' ? '#products' : page==='checkout' ? '#checkout' : infoPages.includes(page) ? '#'+page : '#home';
-    history.pushState({page, cat:cat||null}, '', window.location.pathname + hash);
+    // Clean, shareable URL (each one also exists as a real page for Google)
+    swClearSSR();
+    swPush({page, cat:cat||null}, swUrl(page, cat));
     updatePageTitle(page, cat);
     // update nav active state
     document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
     if(page==='products') document.getElementById('nav-products').classList.add('active');
     window.scrollTo({top:0,behavior:'instant'});
     if(page==='products'){
+      document.querySelectorAll('.sidebar input[type=checkbox]').forEach(cb=>cb.checked=false);
+      _swCat = null;
       if(cat){
-        document.querySelectorAll('.sidebar input[type=checkbox]').forEach(cb=>cb.checked=false);
-        const cb=document.getElementById('fc-'+cat);
-        if(cb){cb.checked=true;}
-      } else {
-        document.querySelectorAll('.sidebar input[type=checkbox]').forEach(cb=>cb.checked=false);
+        const cb=[...document.querySelectorAll('.sidebar input.fc-cat')].find(x=>x.value===cat);
+        if(cb){cb.checked=true;} else {_swCat=cat;} // category not in the sidebar list: still filter by it
       }
       setTimeout(()=>{applyFilters();initReveal();},50);
     }
@@ -3590,7 +3712,8 @@ function showPageThenScroll(page, sectionId){
     document.getElementById('page-products').style.display = 'none';
     document.getElementById('page-product').style.display = 'none';
     document.getElementById('page-checkout').style.display = 'none';
-    history.pushState({page}, '', window.location.pathname + '#home');
+    swClearSSR();
+    swPush({page:'home'}, '/');
     document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
     NP.done();
     // Scroll AFTER page is shown — wait a tick for layout
@@ -3604,6 +3727,7 @@ function showPageThenScroll(page, sectionId){
 if('scrollRestoration' in history){ history.scrollRestoration = 'manual'; }
 
 window.addEventListener('popstate', function(e){
+  swClearSSR();
   window.scrollTo({top:0,behavior:'instant'});
   document.documentElement.scrollTop = 0;
   document.body.scrollTop = 0;
@@ -3643,14 +3767,14 @@ function homeFilter(f,el){
       <div class="product-card reveal visible" onclick="openProduct(${typeof p.id === 'string' ? '"'+p.id+'"' : p.id})" style="cursor:pointer;">
         <div class="product-img">${(p.image_urls&&p.image_urls[0])||p.image_url ? `<img src="${esc(safeUrl((p.image_urls&&p.image_urls[0])||p.image_url))}" alt="${esc(p.name)} - Buy in Karachi | SupplyWala" style="width:100%;height:100%;object-fit:contain;">` : (CAT_ICONS[p.cat]||'')}${p.stock_status==='out_of_stock'?'<div class="product-img-oos-overlay"><span class="product-img-oos-label">Unavailable</span></div>':''}</div>
         <div class="product-body">
-          <div class="product-name">${esc(p.name)}</div>
+          <div class="product-name"><a class="pc-link" href="${swUrl('product', null, p.slug||p.id)}" onclick="event.preventDefault()">${esc(p.name)}</a></div>
           ${(() => {
             if(p.stock_status === 'out_of_stock') return `<span class="stock-badge stock-out" style="margin-bottom:6px;font-size:11px;padding:3px 8px;">❌ Out of Stock</span>`;
             if(p.stock_status === 'limited') return `<span class="stock-badge stock-limited" style="margin-bottom:6px;font-size:11px;padding:3px 8px;">⚠️ Limited Stock</span>`;
             if((!p.stock_status || p.stock_status==='in_stock') && typeof p.stockQty==='number' && p.stockQty>0 && p.stockQty<=p.lowStockThreshold) return `<span class="stock-badge stock-limited" style="margin-bottom:6px;font-size:11px;padding:3px 8px;">⚠️ Only ${p.stockQty} left</span>`;
             return '';
           })()}
-          <div class="product-desc">${p.desc}</div>
+          <div class="product-desc">${safeRichHtml(p.desc)}</div>
           <div class="product-foot">
             <div>
               <div class="p-price-orig">Rs. ${p.orig.toLocaleString()}</div>
@@ -3673,7 +3797,7 @@ function homeFilter(f,el){
       </div>`).join('');
     grid.classList.remove('fading');
     grid.querySelectorAll('.reveal').forEach((el,i)=>{
-      el.classList.add(['','d1','d2','d3'][i%4]||'');
+      const _d=['','d1','d2','d3'][i%4]; if(_d) el.classList.add(_d);
       // If the grid is already visible on screen (e.g. on refresh), mark visible immediately
       const rect=grid.getBoundingClientRect();
       if(rect.top < window.innerHeight){el.classList.add('visible');}
@@ -3687,8 +3811,10 @@ function homeFilter(f,el){
 }
 
 /* ── FULL PRODUCTS PAGE ── */
+let _swCat = null;
 function getFilters(){
   const cats=[...document.querySelectorAll('.sidebar input[type=checkbox]:checked')].map(i=>i.value);
+  if(!cats.length && _swCat) cats.push(_swCat);
   const minP=parseFloat(document.getElementById('priceMin').value)||0;
   const maxP=parseFloat(document.getElementById('priceMax').value)||Infinity;
   const sort=document.getElementById('sortSelect').value;
@@ -3712,6 +3838,7 @@ function applyFilters(){
 }
 
 function clearFilters(){
+  _swCat = null;
   document.querySelectorAll('.sidebar input[type=checkbox]').forEach(i=>i.checked=false);
   document.getElementById('priceMin').value='';
   document.getElementById('priceMax').value='';
@@ -3754,14 +3881,14 @@ function renderPage(){
     <div class="product-card" onclick="openProduct(${typeof p.id === 'string' ? '"'+p.id+'"' : p.id})" style="cursor:pointer;">
       <div class="product-img">${(p.image_urls&&p.image_urls[0])||p.image_url ? `<img src="${esc(safeUrl((p.image_urls&&p.image_urls[0])||p.image_url))}" alt="${esc(p.name)} - Buy in Karachi | SupplyWala" style="width:100%;height:100%;object-fit:contain;">` : (CAT_ICONS[p.cat]||'')}${p.stock_status==='out_of_stock'?'<div class="product-img-oos-overlay"><span class="product-img-oos-label">Unavailable</span></div>':''}</div>
       <div class="product-body">
-        <div class="product-name">${esc(p.name)}</div>
+        <div class="product-name"><a class="pc-link" href="${swUrl('product', null, p.slug||p.id)}" onclick="event.preventDefault()">${esc(p.name)}</a></div>
         ${(() => {
           if(p.stock_status === 'out_of_stock') return `<span class="stock-badge stock-out" style="margin-bottom:6px;font-size:11px;padding:3px 8px;">❌ Out of Stock</span>`;
           if(p.stock_status === 'limited') return `<span class="stock-badge stock-limited" style="margin-bottom:6px;font-size:11px;padding:3px 8px;">⚠️ Limited Stock</span>`;
           if((!p.stock_status || p.stock_status==='in_stock') && typeof p.stockQty==='number' && p.stockQty>0 && p.stockQty<=p.lowStockThreshold) return `<span class="stock-badge stock-limited" style="margin-bottom:6px;font-size:11px;padding:3px 8px;">⚠️ Only ${p.stockQty} left</span>`;
           return '';
         })()}
-        <div class="product-desc">${p.desc}</div>
+        <div class="product-desc">${safeRichHtml(p.desc)}</div>
         <div class="product-foot">
           <div>
             ${p.price < p.orig ? `<div class="p-price-orig">Rs. ${p.orig.toLocaleString()}</div>` : ''}
@@ -4205,6 +4332,7 @@ function openProduct(id, fromHistory){
   setTimeout(()=>{
     const p=PRODUCTS.find(x=>String(x.id)===String(id));
     if(!p){ NP.done(); return; }
+    swClearSSR();
     pdpProduct=p;
     pdpQty=1;
     pdpSelectedVariation=p.variations?p.variations[0]:null;
@@ -4217,7 +4345,7 @@ function openProduct(id, fromHistory){
     // Set hash URL so the product is shareable
     const _slugForUrl = p.slug || String(id);
     if(!fromHistory){
-      history.pushState({page:'product', id:id, slug:_slugForUrl}, '', window.location.pathname + '?product='+_slugForUrl);
+      swPush({page:'product', id:id, slug:_slugForUrl}, swUrl('product', null, _slugForUrl));
     }
     updatePageTitle('product', null, p.name, p);
     window.scrollTo({top:0,behavior:'instant'});
@@ -6384,6 +6512,7 @@ function hashNavigate(hash) {
 
 // Raw show page without triggering progress again (used internally)
 function _rawShowPage(page) {
+  swClearSSR();
   const infoPages=['about','contact','privacy','refund','shipping','delivery','faq'];
   document.getElementById('page-home').style.display = page === 'home' ? 'block' : 'none';
   document.getElementById('page-products').style.display = page === 'products' ? 'block' : 'none';
@@ -6415,16 +6544,30 @@ window.addEventListener('hashchange', function() {
 window.addEventListener('DOMContentLoaded', function() {
   const hash = window.location.hash;
   if(hash === '#admin'){ admOpenGate(); return; }
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.get('product')) {
-    // Wait for products to load from Supabase, then navigate
-    const tryOpen = (attempts) => {
-      const slug = urlParams.get('product');
-      const p = PRODUCTS.find(x => x.slug === slug || String(x.id) === slug);
-      if (p) { openProduct(p.id, true); }
-      else if (attempts < 10) { setTimeout(() => tryOpen(attempts + 1), 300); }
+  const route = swParseRoute();
+  if (route) {
+    if (route.type === 'page') { showPage(route.page); return; }
+    const go = (attempts) => {
+      const loaded = PRODUCTS.some(x => x.slug) || attempts >= 25;
+      if (route.type === 'product') {
+        const p = PRODUCTS.find(x => x.slug === route.slug || String(x.id) === route.slug);
+        if (p) {
+          openProduct(p.id, true);
+          history.replaceState({page:'product', id:p.id, slug:p.slug||String(p.id)}, '', swUrl('product', null, p.slug||p.id));
+          return;
+        }
+        if (attempts < 25) { setTimeout(() => go(attempts + 1), 200); return; }
+        swClearSSR();
+        return;
+      }
+      if (!loaded) { setTimeout(() => go(attempts + 1), 200); return; }
+      if (route.type === 'category') { showPage('products', route.key); return; }
+      showPage('products');
+      const q = new URLSearchParams(location.search).get('q');
+      const box = document.getElementById('prodSearch');
+      if (q && box) { box.value = q; setTimeout(() => applyFilters(), 500); }
     };
-    setTimeout(() => tryOpen(0), 500);
+    go(0);
     return;
   }
   if (hash && hash !== '#home') { hashNavigate(hash); }
