@@ -2775,9 +2775,9 @@ function heroSearchFilter(val){
   const q=val.toLowerCase();
   const hits=PRODUCTS.filter(p=>p.name.toLowerCase().includes(q)||p.desc.toLowerCase().includes(q)||(p.cat||'').toLowerCase().includes(q)).slice(0,6);
   if(!hits.length){
-    dd.innerHTML='<div class="hero-search-no-result">No products found for "'+val+'"</div>';
+    dd.innerHTML='<div class="hero-search-no-result">No products found for "'+esc(val)+'"</div>';
   } else {
-    dd.innerHTML=hits.map(p=>`<div class="hero-search-item" onclick="heroPickProduct(${p.id})"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><span>${p.name}</span><span style="margin-left:auto;color:#64748b;font-size:12px;">Rs. ${p.price.toLocaleString()}</span></div>`).join('');
+    dd.innerHTML=hits.map(p=>`<div class="hero-search-item" onclick="heroPickProduct(${p.id})"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><span>${esc(p.name)}</span><span style="margin-left:auto;color:#64748b;font-size:12px;">Rs. ${p.price.toLocaleString()}</span></div>`).join('');
   }
   dd.classList.add('open');
 }
@@ -2804,9 +2804,9 @@ function navSearchLive(val){
   if(q.length<2){dd.classList.remove('open');dd.innerHTML='';return;}
   const hits=PRODUCTS.filter(p=>p.name.toLowerCase().includes(q.toLowerCase())||p.desc.toLowerCase().includes(q.toLowerCase())||p.cat.toLowerCase().includes(q.toLowerCase())).slice(0,7);
   if(!hits.length){
-    dd.innerHTML='<div class="nav-search-dd-none">No products found for "'+q+'"</div>';
+    dd.innerHTML='<div class="nav-search-dd-none">No products found for "'+esc(q)+'"</div>';
   } else {
-    dd.innerHTML=hits.map(p=>`<div class="nav-search-dd-item" onmousedown="navSearchPick(${p.id})"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><span class="dd-name">${p.name}</span><span class="dd-price">Rs. ${p.price.toLocaleString()}</span></div>`).join('');
+    dd.innerHTML=hits.map(p=>`<div class="nav-search-dd-item" onmousedown="navSearchPick(${p.id})"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><span class="dd-name">${esc(p.name)}</span><span class="dd-price">Rs. ${p.price.toLocaleString()}</span></div>`).join('');
   }
   dd.classList.add('open');
 }
@@ -3020,7 +3020,7 @@ function renderCatsCarousel(){
   track.innerHTML = SITE_CATEGORIES.map(c=>`
     <div class="cat-card" onclick="showPage('products','${c.key}')">
       <div class="cat-icon-wrap">${getCatIconSvg(c.icon||'box', 28)}</div>
-      <div class="cat-name">${c.name}</div>
+      <div class="cat-name">${esc(c.name)}</div>
       <div class="cat-desc">${(c.desc||c.description||'')}</div>
     </div>`).join('');
   // Re-init carousel dots
@@ -3032,7 +3032,7 @@ function renderHomeFilterBtns(){
   const el = document.getElementById('homeFilterBtns');
   if(!el) return;
   el.innerHTML = `<button class="cf active" onclick="homeFilter('all',this)">All</button>` +
-    SITE_CATEGORIES.map(c=>`<button class="cf" onclick="homeFilter('${c.key}',this)">${c.name}</button>`).join('');
+    SITE_CATEGORIES.map(c=>`<button class="cf" onclick="homeFilter('${c.key}',this)">${esc(c.name)}</button>`).join('');
 }
 
 function renderSidebarCatFilters(){
@@ -3040,14 +3040,14 @@ function renderSidebarCatFilters(){
   if(!el) return;
   el.innerHTML = SITE_CATEGORIES.map(c=>{
     const cnt = (typeof PRODUCTS !== 'undefined' ? PRODUCTS : []).filter(p=>p.cat===c.key).length;
-    return `<label class="filter-check"><input type="checkbox" class="fc-cat" value="${c.key}" onchange="applyFilters()"><span>${c.name}</span><span class="cnt">${cnt}</span></label>`;
+    return `<label class="filter-check"><input type="checkbox" class="fc-cat" value="${c.key}" onchange="applyFilters()"><span>${esc(c.name)}</span><span class="cnt">${cnt}</span></label>`;
   }).join('');
 }
 
 function renderFooterCatLinks(){
   const el = document.getElementById('footerCatLinks');
   if(!el) return;
-  el.innerHTML = SITE_CATEGORIES.map(c=>`<a onclick="showPage('products','${c.key}')" style="cursor:pointer;">${c.name}</a>`).join('');
+  el.innerHTML = SITE_CATEGORIES.map(c=>`<a onclick="showPage('products','${c.key}')" style="cursor:pointer;">${esc(c.name)}</a>`).join('');
 }
 
 /* ── Admin Categories ── */
@@ -3066,13 +3066,13 @@ function admRenderCatList(){
         ${getCatIconSvg(c.icon||'box', 24)}
       </div>
       <div style="flex:1;min-width:0;">
-        <div style="color:#fff;font-weight:600;font-size:14px;">${c.name}</div>
+        <div style="color:#fff;font-weight:600;font-size:14px;">${esc(c.name)}</div>
         <div style="color:#64748b;font-size:12px;margin-top:2px;">${(c.desc||c.description||'')}</div>
         <div style="color:#475569;font-size:11px;margin-top:4px;">Key: ${c.key}</div>
       </div>
       <div style="display:flex;gap:8px;flex-shrink:0;">
         <button onclick="admEditCat('${c.id}')" style="padding:6px 12px;border-radius:6px;border:1px solid #334155;background:transparent;color:#94a3b8;font-size:12px;cursor:pointer;font-family:Poppins,sans-serif;">Edit</button>
-        <button onclick="admDeleteCat('${c.id}','${c.name}')" style="padding:6px 12px;border-radius:6px;border:none;background:rgba(239,68,68,0.1);color:#ef4444;font-size:12px;cursor:pointer;font-family:Poppins,sans-serif;">Delete</button>
+        <button data-name="${esc(c.name)}" onclick="admDeleteCat('${esc(c.id)}',this.dataset.name)" style="padding:6px 12px;border-radius:6px;border:none;background:rgba(239,68,68,0.1);color:#ef4444;font-size:12px;cursor:pointer;font-family:Poppins,sans-serif;">Delete</button>
       </div>
     </div>`).join('');
 }
@@ -3382,9 +3382,9 @@ function homeFilter(f,el){
     const show=list.slice(0,16);
     grid.innerHTML=show.map(p=>`
       <div class="product-card reveal visible" onclick="openProduct(${typeof p.id === 'string' ? '"'+p.id+'"' : p.id})" style="cursor:pointer;">
-        <div class="product-img">${(p.image_urls&&p.image_urls[0])||p.image_url ? `<img src="${(p.image_urls&&p.image_urls[0])||p.image_url}" alt="${p.name} - Buy in Karachi | SupplyWala" style="width:100%;height:100%;object-fit:contain;">` : (CAT_ICONS[p.cat]||'')}${p.stock_status==='out_of_stock'?'<div class="product-img-oos-overlay"><span class="product-img-oos-label">Unavailable</span></div>':''}</div>
+        <div class="product-img">${(p.image_urls&&p.image_urls[0])||p.image_url ? `<img src="${esc(safeUrl((p.image_urls&&p.image_urls[0])||p.image_url))}" alt="${esc(p.name)} - Buy in Karachi | SupplyWala" style="width:100%;height:100%;object-fit:contain;">` : (CAT_ICONS[p.cat]||'')}${p.stock_status==='out_of_stock'?'<div class="product-img-oos-overlay"><span class="product-img-oos-label">Unavailable</span></div>':''}</div>
         <div class="product-body">
-          <div class="product-name">${p.name}</div>
+          <div class="product-name">${esc(p.name)}</div>
           ${(() => {
             if(p.stock_status === 'out_of_stock') return `<span class="stock-badge stock-out" style="margin-bottom:6px;font-size:11px;padding:3px 8px;">❌ Out of Stock</span>`;
             if(p.stock_status === 'limited') return `<span class="stock-badge stock-limited" style="margin-bottom:6px;font-size:11px;padding:3px 8px;">⚠️ Limited Stock</span>`;
@@ -3400,7 +3400,7 @@ function homeFilter(f,el){
             <div class="p-right">
               ${p.price < p.orig ? `<span class="save-pill">-${pct(p)}%</span>` : ''}
               ${p.stock_status==='out_of_stock'
-                ? `<button class="atc" disabled style="background:#94a3b8;cursor:not-allowed;opacity:0.6;" aria-label="${p.name} is out of stock"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg></button>`
+                ? `<button class="atc" disabled style="background:#94a3b8;cursor:not-allowed;opacity:0.6;" aria-label="${esc(p.name)} is out of stock"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg></button>`
                 : `<button class="atc" onclick="event.stopPropagation();addToCart(${p.id},event)" aria-label="Add to cart">
                 <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
               </button>`}
@@ -3493,9 +3493,9 @@ function renderPage(){
   }
   grid.innerHTML=page.map(p=>`
     <div class="product-card" onclick="openProduct(${typeof p.id === 'string' ? '"'+p.id+'"' : p.id})" style="cursor:pointer;">
-      <div class="product-img">${(p.image_urls&&p.image_urls[0])||p.image_url ? `<img src="${(p.image_urls&&p.image_urls[0])||p.image_url}" alt="${p.name} - Buy in Karachi | SupplyWala" style="width:100%;height:100%;object-fit:contain;">` : (CAT_ICONS[p.cat]||'')}${p.stock_status==='out_of_stock'?'<div class="product-img-oos-overlay"><span class="product-img-oos-label">Unavailable</span></div>':''}</div>
+      <div class="product-img">${(p.image_urls&&p.image_urls[0])||p.image_url ? `<img src="${esc(safeUrl((p.image_urls&&p.image_urls[0])||p.image_url))}" alt="${esc(p.name)} - Buy in Karachi | SupplyWala" style="width:100%;height:100%;object-fit:contain;">` : (CAT_ICONS[p.cat]||'')}${p.stock_status==='out_of_stock'?'<div class="product-img-oos-overlay"><span class="product-img-oos-label">Unavailable</span></div>':''}</div>
       <div class="product-body">
-        <div class="product-name">${p.name}</div>
+        <div class="product-name">${esc(p.name)}</div>
         ${(() => {
           if(p.stock_status === 'out_of_stock') return `<span class="stock-badge stock-out" style="margin-bottom:6px;font-size:11px;padding:3px 8px;">❌ Out of Stock</span>`;
           if(p.stock_status === 'limited') return `<span class="stock-badge stock-limited" style="margin-bottom:6px;font-size:11px;padding:3px 8px;">⚠️ Limited Stock</span>`;
@@ -3511,8 +3511,8 @@ function renderPage(){
           <div class="p-right">
             ${p.price < p.orig ? `<span class="save-pill">-${pct(p)}%</span>` : ''}
             ${p.stock_status==='out_of_stock'
-              ? `<button class="atc" disabled style="background:#94a3b8;cursor:not-allowed;opacity:0.6;" aria-label="${p.name} is out of stock"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg></button>`
-              : `<button class="atc" onclick="event.stopPropagation();addToCart(${p.id},event)" aria-label="Add ${p.name} to cart">
+              ? `<button class="atc" disabled style="background:#94a3b8;cursor:not-allowed;opacity:0.6;" aria-label="${esc(p.name)} is out of stock"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg></button>`
+              : `<button class="atc" onclick="event.stopPropagation();addToCart(${p.id},event)" aria-label="Add ${esc(p.name)} to cart">
               <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             </button>`}
           </div>
@@ -3564,7 +3564,7 @@ function addToCart(id,e){
   const ex=cart.find(x=>String(x.id)===String(id));
   if(ex)ex.qty++;else cart.push({...p,qty:1});
   updateCount();saveCart();
-  showToast('<b>'+p.name+'</b> added to cart');
+  showToast('<b>'+esc(p.name)+'</b> added to cart');
 }
 function updateCount(){document.getElementById('cartCount').textContent=cart.reduce((a,b)=>a+b.qty,0);}
 function toggleCart(){
@@ -3579,8 +3579,8 @@ function renderCart(){
     <div class="d-item">
       <div class="d-item-img">${CAT_ICONS[i.cat]||'📦'}</div>
       <div class="d-item-info">
-        <div class="d-item-name">${i.name}</div>
-        ${i.selectedVariation?`<div style="font-size:12px;color:var(--gray-500);margin-top:2px;">${i.selectedVariation}</div>`:''}
+        <div class="d-item-name">${esc(i.name)}</div>
+        ${i.selectedVariation?`<div style="font-size:12px;color:var(--gray-500);margin-top:2px;">${esc(i.selectedVariation)}</div>`:''}
         <div class="d-item-price">Rs. ${i.price.toLocaleString()}</div>
         <div class="d-qty">
           <button class="qbtn" onclick="changeQty(${idx},-1)">−</button>
@@ -3612,6 +3612,35 @@ const CLOUDINARY_UPLOAD_PRESET = 'supplywala_reviews';
 const CLOUDINARY_UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
 
 /* Escape text before putting it into HTML (stops code hidden in names, reviews, searches) */
+/* Only allow web image links (blocks javascript: and broken quotes) */
+function safeUrl(u){
+  const v = String(u == null ? '' : u).trim();
+  return /^https:\/\/[^\s"'<>`]+$/i.test(v) ? v : '';
+}
+/* Product descriptions keep simple formatting (bold, lists, links) but lose anything that can run code */
+function safeRichHtml(html){
+  const tpl = document.createElement('template');
+  tpl.innerHTML = String(html || '');
+  const OK = {P:1,BR:1,B:1,STRONG:1,I:1,EM:1,U:1,UL:1,OL:1,LI:1,H2:1,H3:1,H4:1,A:1,SPAN:1,DIV:1,BLOCKQUOTE:1,HR:1,SUB:1,SUP:1,S:1,TABLE:1,THEAD:1,TBODY:1,TR:1,TH:1,TD:1};
+  const DROP = ['SCRIPT','STYLE','IFRAME','OBJECT','EMBED','SVG','MATH','FORM','INPUT','TEXTAREA','BUTTON','LINK','META','IMG','VIDEO','AUDIO','TEMPLATE','NOSCRIPT'];
+  const walk = (node) => {
+    [...node.children].forEach(el => {
+      const tag = el.tagName.toUpperCase();
+      if(!OK[tag]){
+        if(DROP.includes(tag)){ el.remove(); return; }
+        walk(el); el.replaceWith(...el.childNodes); return;
+      }
+      [...el.attributes].forEach(a => {
+        if(tag === 'A' && a.name.toLowerCase() === 'href' && /^(https?:|mailto:|tel:)/i.test(a.value.trim())) return;
+        el.removeAttribute(a.name);
+      });
+      if(tag === 'A'){ el.setAttribute('target','_blank'); el.setAttribute('rel','noopener nofollow'); }
+      walk(el);
+    });
+  };
+  walk(tpl.content);
+  return tpl.innerHTML;
+}
 function esc(v){
   return String(v == null ? '' : v).replace(/[&<>"'`]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','`':'&#96;'}[c]));
 }
@@ -3693,8 +3722,8 @@ function ckRenderSummary(){
   items.innerHTML = cart.map(i=>`
     <div class="ck-item">
       <div class="ck-item-left">
-        <div class="ck-item-name">${i.name}</div>
-        <div class="ck-item-meta">Qty: ${i.qty}${i.selectedVariation?' · '+i.selectedVariation:''}</div>
+        <div class="ck-item-name">${esc(i.name)}</div>
+        <div class="ck-item-meta">Qty: ${Number(i.qty)||0}${i.selectedVariation?' · '+esc(i.selectedVariation):''}</div>
       </div>
       <div class="ck-item-price">Rs. ${(i.price*i.qty).toLocaleString()}</div>
     </div>`).join('');
@@ -3934,15 +3963,15 @@ function openProduct(id, fromHistory){
   const pdpImages = (p.image_urls && p.image_urls.length) ? p.image_urls : (p.image_url ? [p.image_url] : []);
   function pdpSetMain(src){
     document.getElementById('pdpImgIcon').innerHTML = src
-      ? `<img src="${src}" alt="${p.name} - SupplyWala" style="width:100%;height:100%;object-fit:contain;">`
+      ? `<img src="${esc(safeUrl(src))}" alt="${esc(p.name)} - SupplyWala" style="width:100%;height:100%;object-fit:contain;">`
       : `<div style="transform:scale(2.2)">${CAT_ICONS[p.cat]||''}</div>`;
     initPdpZoom(!!src);
   }
   pdpSetMain(pdpImages[0]||null);
   if(pdpImages.length > 0){
     const thumbsHtml = pdpImages.map((src,i)=>`
-      <div class="pdp-thumb${i===0?' active':''}" data-src="${src}" onclick="pdpThumbClick(this)" onmouseenter="pdpThumbClick(this)">
-        <img src="${src}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:6px;">
+      <div class="pdp-thumb${i===0?' active':''}" data-src="${esc(safeUrl(src))}" onclick="pdpThumbClick(this)" onmouseenter="pdpThumbClick(this)">
+        <img src="${esc(safeUrl(src))}" alt="${esc(p.name)}" style="width:100%;height:100%;object-fit:cover;border-radius:6px;">
       </div>`).join('');
     document.getElementById('pdpThumbs').innerHTML=thumbsHtml;
   } else {
@@ -4019,7 +4048,7 @@ function openProduct(id, fromHistory){
     varWrap.style.display='block';
     document.getElementById('pdpVarLabel').textContent=p.variationLabel||'Select Option';
     document.getElementById('pdpVariations').innerHTML=p.variations.map((v,i)=>`
-      <button class="pdp-var-btn${i===0?' active':''}" onclick="selectVariation(this,'${v}')">${v}</button>`).join('');
+      <button class="pdp-var-btn${i===0?' active':''}" data-v="${esc(v)}" onclick="selectVariation(this,this.dataset.v)">${esc(v)}</button>`).join('');
   } else {
     varWrap.style.display='none';
   }
@@ -4042,7 +4071,7 @@ function openProduct(id, fromHistory){
   }
 
   // Description — show only what's stored on the product, no auto-generated features
-  document.getElementById('pdpDesc').innerHTML=p.desc||'';
+  document.getElementById('pdpDesc').innerHTML=safeRichHtml(p.desc||'');
   document.getElementById('pdpFeatures').innerHTML='';
 
   // Product Specifications & Accordion Sections
@@ -4060,7 +4089,7 @@ function openProduct(id, fromHistory){
       html += '<span class="pdp-accordion-icon open">&#8964;</span></div>';
       html += '<div class="pdp-accordion-body open">';
       html += p.specs.map(function(s){
-        return '<div class="pdp-accordion-row"><span class="pdp-accordion-label">'+s.label+'</span><span class="pdp-accordion-value">'+s.value+'</span></div>';
+        return '<div class="pdp-accordion-row"><span class="pdp-accordion-label">'+esc(s.label)+'</span><span class="pdp-accordion-value">'+esc(s.value)+'</span></div>';
       }).join('');
       html += '</div></div>';
     }
@@ -4070,11 +4099,11 @@ function openProduct(id, fromHistory){
         const isFirst = idx === 0 && !hasFlat; // first section open by default if no flat specs
         return '<div class="pdp-accordion">' +
           '<div class="pdp-accordion-header" onclick="togglePdpAccordion(this)">' +
-          '<span class="pdp-accordion-title">'+sec.heading+'</span>' +
+          '<span class="pdp-accordion-title">'+esc(sec.heading)+'</span>' +
           '<span class="pdp-accordion-icon'+(isFirst?' open':'')+'">&#8964;</span></div>' +
           '<div class="pdp-accordion-body'+(isFirst?' open':'')+'">' +
           (sec.rows||[]).map(function(r){
-            return '<div class="pdp-accordion-row"><span class="pdp-accordion-label">'+r.label+'</span><span class="pdp-accordion-value">'+r.value+'</span></div>';
+            return '<div class="pdp-accordion-row"><span class="pdp-accordion-label">'+esc(r.label)+'</span><span class="pdp-accordion-value">'+esc(r.value)+'</span></div>';
           }).join('') +
           '</div></div>';
       }).join('');
@@ -4103,9 +4132,9 @@ function openProduct(id, fromHistory){
   }
   document.getElementById('pdpRelatedGrid').innerHTML=related.map(r=>`
     <div class="product-card" onclick="openProduct(${r.id})" style="cursor:pointer;">
-      <div class="product-img">${(r.image_urls&&r.image_urls[0])||r.image_url?`<img src="${(r.image_urls&&r.image_urls[0])||r.image_url}" alt="${r.name} - Buy in Karachi | SupplyWala" style="width:100%;height:100%;object-fit:contain;">`:(CAT_ICONS[r.cat]||'')}${r.stock_status==='out_of_stock'?'<div class="product-img-oos-overlay"><span class="product-img-oos-label">Unavailable</span></div>':''}</div>
+      <div class="product-img">${(r.image_urls&&r.image_urls[0])||r.image_url?`<img src="${esc(safeUrl((r.image_urls&&r.image_urls[0])||r.image_url))}" alt="${esc(r.name)} - Buy in Karachi | SupplyWala" style="width:100%;height:100%;object-fit:contain;">`:(CAT_ICONS[r.cat]||'')}${r.stock_status==='out_of_stock'?'<div class="product-img-oos-overlay"><span class="product-img-oos-label">Unavailable</span></div>':''}</div>
       <div class="product-body">
-        <div class="product-name">${r.name}</div>
+        <div class="product-name">${esc(r.name)}</div>
         ${(() => {
           if(r.stock_status === 'out_of_stock') return `<span class="stock-badge stock-out" style="margin-bottom:6px;font-size:11px;padding:3px 8px;">❌ Out of Stock</span>`;
           if(r.stock_status === 'limited') return `<span class="stock-badge stock-limited" style="margin-bottom:6px;font-size:11px;padding:3px 8px;">⚠️ Limited Stock</span>`;
@@ -4197,7 +4226,7 @@ function pdpAddToCart(){
   else cart.push({...pdpProduct,price:pdpEffectivePrice(),qty:pdpQty,selectedVariation:pdpSelectedVariation});
   updateCount();
   saveCart();
-  showToast(`<b>${pdpProduct.name}</b> added to cart`);
+  showToast(`<b>${esc(pdpProduct.name)}</b> added to cart`);
 }
 
 function pdpBuyNow(){
@@ -4268,7 +4297,7 @@ function pdpThumbClick(el){
   el.classList.add('active');
   const mainImg = document.getElementById('pdpImgIcon');
   const alt = mainImg.querySelector('img') ? mainImg.querySelector('img').alt : '';
-  mainImg.innerHTML='<img src="'+el.dataset.src+'" alt="'+alt+'" style="width:100%;height:100%;object-fit:contain;">';
+  mainImg.innerHTML='<img src="'+esc(safeUrl(el.dataset.src))+'" alt="'+esc(alt)+'" style="width:100%;height:100%;object-fit:contain;">';
 }
 
 /* ══════════════════════════════════════════
@@ -4417,24 +4446,24 @@ function renderRevList(reviews){
   reviews.forEach(r=>{
     const card = document.createElement('div');
     card.className = 'rev-card';
-    const initials = r.reviewer_name ? r.reviewer_name.trim().split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2) : '?';
+    const initials = r.reviewer_name ? esc(r.reviewer_name.trim().split(/\s+/).map(w=>w[0]||'').join('').toUpperCase().slice(0,2)) : '?';
     const date = r.created_at ? new Date(r.created_at).toLocaleDateString('en-PK', {year:'numeric',month:'short',day:'numeric'}) : '';
     let photosHtml = '';
     if(r.photo_urls && r.photo_urls.length){
       photosHtml = '<div class="rev-card-photos">' + r.photo_urls.map((src,i)=>
-        `<img class="rev-card-photo" src="${src}" alt="Review photo ${i+1}" onclick="openRevLightbox('${src}')">`
+        safeUrl(src) ? `<img class="rev-card-photo" src="${esc(safeUrl(src))}" data-src="${esc(safeUrl(src))}" alt="Review photo ${i+1}" onclick="openRevLightbox(this.dataset.src)">` : ''
       ).join('') + '</div>';
     }
     card.innerHTML = `
       <div class="rev-card-head">
         <div class="rev-avatar">${initials}</div>
         <div class="rev-card-meta">
-          <div class="rev-card-name">${r.reviewer_name}</div>
-          <div class="rev-card-stars">${starsHtml(r.rating,14)}</div>
+          <div class="rev-card-name">${esc(r.reviewer_name)}</div>
+          <div class="rev-card-stars">${starsHtml(Number(r.rating)||0,14)}</div>
           <div class="rev-card-date">${date}</div>
         </div>
       </div>
-      <div class="rev-card-text">${r.review_text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+      <div class="rev-card-text">${esc(r.review_text)}</div>
       ${photosHtml}`;
     listEl.appendChild(card);
   });
@@ -5132,26 +5161,27 @@ function admRenderReviews(){
     const product = admProducts.find(p=>String(p.id)===String(r.product_id));
     const productName = product ? product.name : ('Product #'+r.product_id);
     const date = r.created_at ? new Date(r.created_at).toLocaleDateString('en-PK',{year:'numeric',month:'short',day:'numeric'}) : '';
-    const stars = '★★★★★'.slice(0, r.rating) + '☆☆☆☆☆'.slice(0, 5-r.rating);
+    const rt = Math.max(0, Math.min(5, Number(r.rating)||0));
+    const stars = '★★★★★'.slice(0, rt) + '☆☆☆☆☆'.slice(0, 5-rt);
     let photosHtml = '';
     if(r.photo_urls && r.photo_urls.length){
       photosHtml = '<div style="display:flex;gap:8px;margin-top:10px;">' + r.photo_urls.map(src=>
-        `<img src="${src}" style="width:56px;height:56px;border-radius:8px;object-fit:cover;border:1px solid #334155;">`
+        safeUrl(src) ? `<img src="${esc(safeUrl(src))}" style="width:56px;height:56px;border-radius:8px;object-fit:cover;border:1px solid #334155;">` : ''
       ).join('') + '</div>';
     }
-    const safeText = (r.review_text||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const safeText = esc(r.review_text||'');
     return `
       <div class="adm-customer-row" style="align-items:flex-start;flex-wrap:wrap;">
-        <div class="adm-customer-avatar">${(r.reviewer_name||'?').charAt(0).toUpperCase()}</div>
+        <div class="adm-customer-avatar">${esc((r.reviewer_name||'?').charAt(0).toUpperCase())}</div>
         <div style="flex:1;min-width:220px;">
-          <div class="adm-customer-name">${r.reviewer_name} <span style="color:#f59e0b;font-size:12px;margin-left:6px;">${stars}</span></div>
-          <div class="adm-customer-meta">${productName} · ${date}</div>
+          <div class="adm-customer-name">${esc(r.reviewer_name)} <span style="color:#f59e0b;font-size:12px;margin-left:6px;">${stars}</span></div>
+          <div class="adm-customer-meta">${esc(productName)} · ${date}</div>
           <div style="color:#cbd5e1;font-size:13px;margin-top:8px;line-height:1.6;">${safeText}</div>
           ${photosHtml}
         </div>
         <div style="display:flex;gap:8px;margin-top:6px;">
-          <button class="adm-action-btn" onclick="admApproveReview('${r.id}')">✓ Approve</button>
-          <button class="adm-action-btn danger" onclick="admRejectReview('${r.id}')">✕ Reject</button>
+          <button class="adm-action-btn" onclick="admApproveReview('${esc(r.id)}')">✓ Approve</button>
+          <button class="adm-action-btn danger" onclick="admRejectReview('${esc(r.id)}')">✕ Reject</button>
         </div>
       </div>`;
   }).join('');
@@ -5305,13 +5335,13 @@ function admRenderRecentOrders(orders){
       </tr></thead>
       <tbody>${orders.map(o=>`
         <tr>
-          <td><strong>${o.order_number||'—'}</strong></td>
-          <td><strong>${o.customer_name||'—'}</strong><br><span style="font-size:11px;color:#475569;">${o.customer_phone||''}</span></td>
-          <td>${o.customer_city||'—'}</td>
+          <td><strong>${esc(o.order_number||'—')}</strong></td>
+          <td><strong>${esc(o.customer_name||'—')}</strong><br><span style="font-size:11px;color:#475569;">${esc(o.customer_phone||'')}</span></td>
+          <td>${esc(o.customer_city||'—')}</td>
           <td><strong style="color:#22C55E;">Rs. ${(o.total_amount||0).toLocaleString()}</strong></td>
-          <td>${o.payment_method||'—'}</td>
-          <td><span class="adm-badge ${o.status||'pending'}">${o.status||'pending'}</span></td>
-          <td><button class="adm-action-btn" onclick="admViewOrder('${o.id}')">View</button></td>
+          <td>${esc(o.payment_method||'—')}</td>
+          <td><span class="adm-badge ${esc(o.status||'pending')}">${esc(o.status||'pending')}</span></td>
+          <td><button class="adm-action-btn" onclick="admViewOrder('${esc(o.id)}')">View</button></td>
         </tr>`).join('')}
       </tbody>
     </table>`;
@@ -5330,7 +5360,7 @@ function admRenderTopProducts(orders){
   document.getElementById('admTopProducts').innerHTML=sorted.map(([name,qty])=>`
     <div style="margin-bottom:14px;">
       <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;">
-        <span style="color:#fff;font-weight:500;">${name}</span>
+        <span style="color:#fff;font-weight:500;">${esc(name)}</span>
         <span style="color:#22C55E;font-weight:700;">${qty} sold</span>
       </div>
       <div style="background:#334155;border-radius:4px;height:6px;overflow:hidden;">
@@ -5361,20 +5391,20 @@ function admRenderOrders(){
       </tr></thead>
       <tbody>${list.map(o=>`
         <tr>
-          <td><strong>${o.order_number||'—'}</strong><br><span style="font-size:10px;color:#475569;">${o.created_at?new Date(o.created_at).toLocaleDateString('en-PK'):''}</span></td>
-          <td><strong>${o.customer_name||'—'}</strong><br><span style="font-size:11px;color:#475569;">${o.customer_phone||''}</span></td>
-          <td style="max-width:140px;font-size:12px;">${o.customer_address||'—'}</td>
+          <td><strong>${esc(o.order_number||'—')}</strong><br><span style="font-size:10px;color:#475569;">${o.created_at?new Date(o.created_at).toLocaleDateString('en-PK'):''}</span></td>
+          <td><strong>${esc(o.customer_name||'—')}</strong><br><span style="font-size:11px;color:#475569;">${esc(o.customer_phone||'')}</span></td>
+          <td style="max-width:140px;font-size:12px;">${esc(o.customer_address||'—')}</td>
           <td style="font-size:12px;">${o.items&&Array.isArray(o.items)?o.items.length+' item(s)':'—'}</td>
           <td><strong style="color:#22C55E;">Rs. ${(o.total_amount||0).toLocaleString()}</strong></td>
-          <td style="font-size:12px;">${o.payment_method||'—'}</td>
+          <td style="font-size:12px;">${esc(o.payment_method||'—')}</td>
           <td>
-            <select class="adm-status-select" onchange="admUpdateStatus('${o.id}',this.value)">
+            <select class="adm-status-select" onchange="admUpdateStatus('${esc(o.id)}',this.value)">
               ${['pending','confirmed','dispatched','delivered','cancelled'].map(s=>`<option value="${s}"${o.status===s?' selected':''}>${s.charAt(0).toUpperCase()+s.slice(1)}</option>`).join('')}
             </select>
           </td>
           <td>
-            <button class="adm-action-btn" onclick="admViewOrder('${o.id}')">View</button>
-            <button class="adm-action-btn" onclick="admWhatsAppCustomer('${o.id}')">WhatsApp</button>
+            <button class="adm-action-btn" onclick="admViewOrder('${esc(o.id)}')">View</button>
+            <button class="adm-action-btn" onclick="admWhatsAppCustomer('${esc(o.id)}')">WhatsApp</button>
           </td>
         </tr>`).join('')}
       </tbody>
@@ -5399,17 +5429,17 @@ function admViewOrder(id){
   document.getElementById('admOrderModalTitle').textContent='Order '+o.order_number;
   const items=o.items&&Array.isArray(o.items)?o.items:[];
   document.getElementById('admOrderModalBody').innerHTML=`
-    <div class="adm-order-detail-row"><span>Order Number</span><strong>${o.order_number}</strong></div>
+    <div class="adm-order-detail-row"><span>Order Number</span><strong>${esc(o.order_number)}</strong></div>
     <div class="adm-order-detail-row"><span>Date</span><strong>${o.created_at?new Date(o.created_at).toLocaleString('en-PK'):'—'}</strong></div>
-    <div class="adm-order-detail-row"><span>Customer</span><strong>${o.customer_name}</strong></div>
-    <div class="adm-order-detail-row"><span>Phone</span><strong>${o.customer_phone}</strong></div>
-    <div class="adm-order-detail-row"><span>Address</span><strong>${o.customer_address}</strong></div>
-    <div class="adm-order-detail-row"><span>Payment</span><strong>${o.payment_method}</strong></div>
-    <div class="adm-order-detail-row"><span>Status</span><strong><span class="adm-badge ${o.status}">${o.status}</span></strong></div>
+    <div class="adm-order-detail-row"><span>Customer</span><strong>${esc(o.customer_name)}</strong></div>
+    <div class="adm-order-detail-row"><span>Phone</span><strong>${esc(o.customer_phone)}</strong></div>
+    <div class="adm-order-detail-row"><span>Address</span><strong>${esc(o.customer_address)}</strong></div>
+    <div class="adm-order-detail-row"><span>Payment</span><strong>${esc(o.payment_method)}</strong></div>
+    <div class="adm-order-detail-row"><span>Status</span><strong><span class="adm-badge ${esc(o.status)}">${esc(o.status)}</span></strong></div>
     <div style="margin-top:16px;margin-bottom:8px;font-size:12px;font-weight:700;color:#64748b;letter-spacing:1px;text-transform:uppercase;">Items Ordered</div>
-    ${items.map(i=>`<div class="adm-order-detail-row"><span>${i.name}${i.variation?' ('+i.variation+')':''} × ${i.qty}</span><strong>Rs. ${(i.price*i.qty).toLocaleString()}</strong></div>`).join('')}
+    ${items.map(i=>`<div class="adm-order-detail-row"><span>${esc(i.name)}${i.variation?' ('+esc(i.variation)+')':''} × ${Number(i.qty)||0}</span><strong>Rs. ${(Number(i.price)*Number(i.qty)||0).toLocaleString()}</strong></div>`).join('')}
     <div class="adm-order-detail-row" style="margin-top:8px;"><span>Total</span><strong style="color:#22C55E;font-size:16px;">Rs. ${(o.total_amount||0).toLocaleString()}</strong></div>
-    ${o.order_notes?`<div class="adm-order-detail-row"><span>Notes</span><strong>${o.order_notes}</strong></div>`:''}
+    ${o.order_notes?`<div class="adm-order-detail-row"><span>Notes</span><strong>${esc(o.order_notes)}</strong></div>`:''}
   `;
   document.getElementById('admOrderWaBtn').onclick=()=>admWhatsAppCustomer(id);
   document.getElementById('admOrderModal').classList.remove('hidden');
@@ -5430,8 +5460,8 @@ function admRenderProducts(){
   }
   document.getElementById('admProductsGrid').innerHTML=admProducts.map((p)=>`
     <div class="adm-product-card">
-      <div class="adm-product-img">${(p.image_urls&&p.image_urls[0])||p.image_url ? `<img src="${(p.image_urls&&p.image_urls[0])||p.image_url}" alt="${p.name}" style="width:100%;height:100%;object-fit:contain;border-radius:8px;">` : (CAT_ICONS[p.cat]||'📦')}</div>
-      <div class="adm-product-name">${p.name}</div>
+      <div class="adm-product-img">${(p.image_urls&&p.image_urls[0])||p.image_url ? `<img src="${esc(safeUrl((p.image_urls&&p.image_urls[0])||p.image_url))}" alt="${esc(p.name)}" style="width:100%;height:100%;object-fit:contain;border-radius:8px;">` : (CAT_ICONS[p.cat]||'📦')}</div>
+      <div class="adm-product-name">${esc(p.name)}</div>
       <div class="adm-product-cat">${(p.cat||'').charAt(0).toUpperCase()+(p.cat||'').slice(1)} · ${p.price < p.orig ? `Save ${pct(p)}%` : 'No discount'} · ${p.stock_status==='out_of_stock'?'❌ Out of Stock':p.stock_status==='limited'?'⚠️ Limited':'✅ In Stock'}</div>
       <div class="adm-product-price">Rs. ${p.price.toLocaleString()} <span style="font-size:12px;color:#475569;font-weight:400;text-decoration:line-through;">Rs. ${p.orig.toLocaleString()}</span></div>
       <div class="adm-product-actions">
@@ -5446,7 +5476,7 @@ function admPopulateCatSelect(selectedKey){
   if(!sel) return;
   // Always rebuild from the live SITE_CATEGORIES array
   sel.innerHTML = SITE_CATEGORIES.map(c=>
-    `<option value="${c.key}"${c.key===selectedKey?' selected':''}>${c.name}</option>`
+    `<option value="${c.key}"${c.key===selectedKey?' selected':''}>${esc(c.name)}</option>`
   ).join('');
   // Fallback: if no match, select the first option
   if(selectedKey && !SITE_CATEGORIES.find(c=>c.key===selectedKey) && SITE_CATEGORIES.length){
@@ -5507,7 +5537,7 @@ function admOpenEditProduct(id){
   document.getElementById('admProdPrice').value=p.price;
   document.getElementById('admProdOrig').value=p.orig;
   admPopulateCatSelect(p.cat);
-  document.getElementById('admProdDescEditor').innerHTML=p.desc||'';
+  document.getElementById('admProdDescEditor').innerHTML=safeRichHtml(p.desc||'');
   const presetUnits=['per item','per kg','per litre','per piece','per box','per dozen','per metre','per ounce'];
   const unitVal=p.unit||'per item';
   if(presetUnits.includes(unitVal)){
@@ -5559,7 +5589,7 @@ function admOpenEditProduct(id){
   const existingImgs = (p.image_urls && p.image_urls.length) ? p.image_urls : (p.image_url ? [p.image_url] : []);
   if(existingImgs.length){
     preview.style.display='flex';
-    preview.innerHTML=existingImgs.map(src=>`<img src="${src}" style="width:80px;height:80px;object-fit:cover;border-radius:8px;border:1px solid #334155;">`).join('');
+    preview.innerHTML=existingImgs.map(src=>`<img src="${esc(safeUrl(src))}" style="width:80px;height:80px;object-fit:cover;border-radius:8px;border:1px solid #334155;">`).join('');
   } else {
     preview.style.display='none';
     preview.innerHTML='';
@@ -5689,8 +5719,8 @@ function admSearchRelatedProducts(){
 
   resultsBox.innerHTML = matches.map(p => `
     <div onclick="admAddRelatedProduct('${p.id}')" style="display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;border-bottom:1px solid #1e293b;" onmouseover="this.style.background='#1e293b'" onmouseout="this.style.background='transparent'">
-      <img src="${(p.image_urls&&p.image_urls[0])||p.image_url||''}" style="width:32px;height:32px;object-fit:cover;border-radius:6px;background:#1e293b;flex-shrink:0;">
-      <span style="color:#fff;font-size:13px;">${p.name}</span>
+      <img src="${esc(safeUrl((p.image_urls&&p.image_urls[0])||p.image_url))}" style="width:32px;height:32px;object-fit:cover;border-radius:6px;background:#1e293b;flex-shrink:0;">
+      <span style="color:#fff;font-size:13px;">${esc(p.name)}</span>
     </div>
   `).join('');
   resultsBox.style.display='block';
@@ -6148,10 +6178,10 @@ function admRenderCustomers(){
   }
   document.getElementById('admCustomersBody').innerHTML=list.map(c=>`
     <div class="adm-customer-row">
-      <div class="adm-customer-avatar">${(c.name||'?').charAt(0).toUpperCase()}</div>
+      <div class="adm-customer-avatar">${esc((c.name||'?').charAt(0).toUpperCase())}</div>
       <div>
-        <div class="adm-customer-name">${c.name||'Unknown'}</div>
-        <div class="adm-customer-meta">${c.phone||''} · ${c.city||'Unknown city'}</div>
+        <div class="adm-customer-name">${esc(c.name||'Unknown')}</div>
+        <div class="adm-customer-meta">${esc(c.phone||'')} · ${esc(c.city||'Unknown city')}</div>
       </div>
       <div class="adm-customer-stats">
         <div class="adm-customer-orders">${c.orders} order${c.orders!==1?'s':''}</div>
@@ -6182,7 +6212,7 @@ function admRenderAnalytics(){
   document.getElementById('admCityChart').innerHTML=cityEntries.length?cityEntries.map(([city,count])=>`
     <div style="margin-bottom:12px;">
       <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px;">
-        <span style="color:#fff;">${city}</span><span style="color:#22C55E;font-weight:700;">${count}</span>
+        <span style="color:#fff;">${esc(city)}</span><span style="color:#22C55E;font-weight:700;">${count}</span>
       </div>
       <div style="background:#334155;border-radius:4px;height:6px;">
         <div style="background:linear-gradient(90deg,#22C55E,#16A34A);height:100%;width:${Math.round((count/cityMax)*100)}%;border-radius:4px;"></div>
@@ -6195,7 +6225,7 @@ function admRenderAnalytics(){
   document.getElementById('admPaymentChart').innerHTML=payEntries.length?payEntries.map(([pay,count],i)=>`
     <div style="margin-bottom:12px;">
       <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px;">
-        <span style="color:#fff;">${pay}</span><span style="color:${payColors[i%4]};font-weight:700;">${count}</span>
+        <span style="color:#fff;">${esc(pay)}</span><span style="color:${payColors[i%4]};font-weight:700;">${count}</span>
       </div>
       <div style="background:#334155;border-radius:4px;height:6px;">
         <div style="background:${payColors[i%4]};height:100%;width:${Math.round((count/payMax)*100)}%;border-radius:4px;"></div>
