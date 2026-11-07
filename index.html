@@ -2190,8 +2190,9 @@ body.adm-open{overflow:hidden;}
     <div class="adm-login-logo">S</div>
     <div class="adm-login-title">SupplyWala Admin</div>
     <div class="adm-login-sub">Seller dashboard — private access only</div>
-    <div class="adm-login-err" id="admLoginErr">Incorrect password. Try again.</div>
-    <input class="adm-login-input" id="admPwInput" type="password" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')admDoLogin()">
+    <div class="adm-login-err" id="admLoginErr">Wrong email or password. Try again.</div>
+    <input class="adm-login-input" id="admEmailInput" type="email" autocomplete="username" placeholder="Admin email" onkeydown="if(event.key==='Enter')document.getElementById('admPwInput').focus()">
+    <input class="adm-login-input" id="admPwInput" type="password" autocomplete="current-password" placeholder="Password" onkeydown="if(event.key==='Enter')admDoLogin()">
     <button class="adm-login-btn" onclick="admDoLogin()">Access Dashboard →</button>
   </div>
 </div>
@@ -3135,7 +3136,7 @@ async function admSaveCategory(){
     const payload = { name, key, description: desc, icon };
     if(admEditingCatId) payload.id = admEditingCatId;
 
-    const res = await fetch(`${SUPABASE_URL}/functions/v1/save-category`, {
+    const res = await admFetch(`${SUPABASE_URL}/functions/v1/save-category`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
@@ -3165,7 +3166,7 @@ async function admSaveCategory(){
 async function admDeleteCat(id, name){
   if(!confirm(`Delete category "${name}"? Products in this category will still exist but won't appear in this category filter.`)) return;
   try {
-    const res = await fetch(`${SUPABASE_URL}/functions/v1/delete-category`, {
+    const res = await admFetch(`${SUPABASE_URL}/functions/v1/delete-category`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id })
@@ -3599,7 +3600,7 @@ function removeItem(idx){cart=cart.filter((x,j)=>j!==idx);updateCount();renderCa
 const SUPABASE_URL = 'https://qerzhzccityggpddceak.supabase.co';
 // No API keys here — order submission goes through the Edge Function
 const EDGE_FUNCTION_URL = `${SUPABASE_URL}/functions/v1/submit-order`;
-// Anon key is kept here only for the password-protected admin panel (read/update orders)
+// Publishable key: safe to be public. Admin access is enforced by Supabase Auth + RLS, not by this key.
 const SUPABASE_ANON_KEY = 'sb_publishable_FM2x6qTU-qPSJzT-BD0hHQ_8FOk49KB';
 
 /* ══════════════════════════════════════════
@@ -4702,7 +4703,86 @@ window.addEventListener('hashchange', admCheckHash);
 /* ══════════════════════════════════════════
    ADMIN DASHBOARD
    ══════════════════════════════════════════ */
-const ADM_SESSION_KEY = 'sw_adm_auth';
+/* ── ADMIN AUTH (Supabase Auth + admins allowlist) ──
+   The dashboard signs in with a real Supabase account. Every admin request
+   sends that account's short-lived token; the server checks it and the
+   admins allowlist. Nothing here is secret: without a valid admin login,
+   these calls are refused by Supabase. */
+const ADM_AUTH_KEY = 'sw_adm_session';
+function admGetSession(){
+  try { return JSON.parse(sessionStorage.getItem(ADM_AUTH_KEY) || 'null'); } catch(e){ return null; }
+}
+function admSaveSession(d){
+  sessionStorage.setItem(ADM_AUTH_KEY, JSON.stringify({
+    access_token: d.access_token,
+    refresh_token: d.refresh_token,
+    expires_at: d.expires_at || (Math.floor(Date.now()/1000) + (d.expires_in || 3600)),
+    email: d.user && d.user.email
+  }));
+}
+function admClearSession(){ sessionStorage.removeItem(ADM_AUTH_KEY); }
+
+let _admRefreshing = null;
+async function admGetToken(){
+  const s = admGetSession();
+  if(!s || !s.access_token) throw new Error('Please sign in');
+  if(s.expires_at - 60 > Date.now()/1000) return s.access_token;
+  if(!_admRefreshing){
+    _admRefreshing = (async () => {
+      const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=refresh_token`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_ANON_KEY },
+        body: JSON.stringify({ refresh_token: s.refresh_token })
+      });
+      if(!res.ok){ admClearSession(); throw new Error('Session expired'); }
+      const d = await res.json();
+      admSaveSession(d);
+      return d.access_token;
+    })().finally(() => { _admRefreshing = null; });
+  }
+  return _admRefreshing;
+}
+
+// fetch() for admin calls: adds the admin's token, handles expiry.
+async function admFetch(url, opts = {}){
+  let token;
+  try { token = await admGetToken(); }
+  catch(e){ admSessionExpired(); throw new Error('Session expired. Please sign in again.'); }
+  const headers = Object.assign({}, opts.headers || {}, {
+    'apikey': SUPABASE_ANON_KEY,
+    'Authorization': `Bearer ${token}`
+  });
+  const res = await fetch(url, Object.assign({}, opts, { headers }));
+  if(res.status === 401){ admSessionExpired(); throw new Error('Session expired. Please sign in again.'); }
+  return res;
+}
+
+function admShowLoginError(msg){
+  const el = document.getElementById('admLoginErr');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+function admShowLogin(){
+  document.getElementById('page-admin').style.display='none';
+  document.getElementById('adm-login').classList.add('show');
+  setTimeout(()=>{
+    const em = document.getElementById('admEmailInput');
+    (em.value ? document.getElementById('admPwInput') : em).focus();
+  },100);
+}
+
+let _admExpiredShown = false;
+function admSessionExpired(){
+  admClearSession();
+  if(_admExpiredShown) return;
+  _admExpiredShown = true;
+  setTimeout(()=>{ _admExpiredShown = false; }, 3000);
+  if(window.location.hash === '#admin'){
+    admShowLogin();
+    admShowLoginError('Your session ended. Please sign in again.');
+  }
+}
 const EDGE_BASE = 'https://qerzhzccityggpddceak.supabase.co/functions/v1';
 let admOrders = [];
 let admProducts = [];
@@ -4733,7 +4813,7 @@ async function admUploadSingleFile(file){
     reader.onload = async function(e){
       try {
         const base64 = e.target.result; // data:image/jpeg;base64,...
-        const res = await fetch(`${EDGE_BASE}/upload-image`, {
+        const res = await admFetch(`${EDGE_BASE}/upload-image`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ image: base64, filename: file.name })
@@ -4837,39 +4917,55 @@ function admOpenGate(){
   document.getElementById('page-checkout').style.display='none';
   if(document.getElementById('page-product'))document.getElementById('page-product').style.display='none';
   updatePageTitle('admin');
-  // Check session
-  if(sessionStorage.getItem(ADM_SESSION_KEY)==='1'){
-    admEnter();
-  } else {
-    document.getElementById('adm-login').classList.add('show');
-    document.getElementById('page-admin').style.display='none';
-    setTimeout(()=>document.getElementById('admPwInput').focus(),100);
-  }
+  // Check session (refreshes the token if it is about to expire)
+  document.getElementById('admLoginErr').style.display='none';
+  admGetToken().then(()=>admEnter()).catch(()=>{ admClearSession(); admShowLogin(); });
 }
 
 async function admDoLogin(){
+  const email = document.getElementById('admEmailInput').value.trim();
   const pw = document.getElementById('admPwInput').value;
   const btn = document.querySelector('.adm-login-btn');
+  document.getElementById('admLoginErr').style.display='none';
+  if(!email || !pw){ admShowLoginError('Enter your admin email and password.'); return; }
   btn.disabled = true;
   btn.textContent = 'Checking...';
   try {
-    const res = await fetch('https://qerzhzccityggpddceak.supabase.co/functions/v1/admin-login', {
+    const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password: pw })
+      headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_ANON_KEY },
+      body: JSON.stringify({ email, password: pw })
     });
-    const data = await res.json();
-    if(res.ok && data.success){
-      sessionStorage.setItem(ADM_SESSION_KEY,'1');
-      document.getElementById('adm-login').classList.remove('show');
-      admEnter();
-    } else {
-      document.getElementById('admLoginErr').style.display='block';
+    if(res.status === 429){ admShowLoginError('Too many attempts. Wait a few minutes and try again.'); return; }
+    if(!res.ok){
+      admShowLoginError('Wrong email or password. Try again.');
       document.getElementById('admPwInput').value='';
       document.getElementById('admPwInput').focus();
+      return;
     }
+    const session = await res.json();
+    // Confirm this account is on the admins allowlist
+    const chk = await fetch(`${SUPABASE_URL}/rest/v1/rpc/is_admin`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${session.access_token}`
+      },
+      body: '{}'
+    });
+    const isAdmin = chk.ok && (await chk.json()) === true;
+    if(!isAdmin){
+      fetch(`${SUPABASE_URL}/auth/v1/logout`, { method:'POST', headers:{ 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${session.access_token}` } }).catch(()=>{});
+      admShowLoginError("This account doesn't have admin access.");
+      return;
+    }
+    admSaveSession(session);
+    document.getElementById('admPwInput').value='';
+    document.getElementById('adm-login').classList.remove('show');
+    admEnter();
   } catch(e){
-    document.getElementById('admLoginErr').style.display='block';
+    admShowLoginError('Could not reach the server. Check your internet and try again.');
   } finally {
     btn.disabled = false;
     btn.textContent = 'Access Dashboard →';
@@ -4896,7 +4992,11 @@ function admEnter(){
 }
 
 function admLogout(){
-  sessionStorage.removeItem(ADM_SESSION_KEY);
+  const sess = admGetSession();
+  if(sess && sess.access_token){
+    fetch(`${SUPABASE_URL}/auth/v1/logout`, { method:'POST', headers:{ 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${sess.access_token}` } }).catch(()=>{});
+  }
+  admClearSession();
   document.getElementById('page-admin').style.display='none';
   document.body.classList.remove('admin-active');
   document.getElementById('adm-login').classList.remove('show');
@@ -4930,23 +5030,16 @@ function admShowPanel(name, btn){
 
 /* ── SUPABASE FETCH ── */
 async function sbFetch(table, query=''){
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${query}&order=created_at.desc`, {
-    headers:{
-      'apikey': SUPABASE_ANON_KEY,
-      'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
-    }
-  });
+  const res = await admFetch(`${SUPABASE_URL}/rest/v1/${table}?${query}&order=created_at.desc`);
   if(!res.ok) throw new Error(await res.text());
   return res.json();
 }
 
 async function sbUpdate(table, id, data){
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`, {
+  const res = await admFetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${encodeURIComponent(id)}`, {
     method:'PATCH',
     headers:{
       'Content-Type':'application/json',
-      'apikey': SUPABASE_ANON_KEY,
-      'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
       'Prefer':'return=representation'
     },
     body: JSON.stringify(data)
@@ -4956,12 +5049,8 @@ async function sbUpdate(table, id, data){
 }
 
 async function sbDelete(table, id){
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`, {
-    method:'DELETE',
-    headers:{
-      'apikey': SUPABASE_ANON_KEY,
-      'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
-    }
+  const res = await admFetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${encodeURIComponent(id)}`, {
+    method:'DELETE'
   });
   if(!res.ok) throw new Error(await res.text());
   return true;
@@ -5871,7 +5960,7 @@ async function admSaveProduct(){
     if(admEditingId) payload.id = admEditingId;
 
     // 2 — Save to Supabase via Edge Function
-    const res = await fetch(`${EDGE_BASE}/save-product`, {
+    const res = await admFetch(`${EDGE_BASE}/save-product`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
@@ -5893,7 +5982,7 @@ async function admSaveProduct(){
 async function admDeleteProduct(id){
   if(!confirm('Delete this product?'))return;
   try {
-    const res = await fetch(`${EDGE_BASE}/delete-product`, {
+    const res = await admFetch(`${EDGE_BASE}/delete-product`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id })
