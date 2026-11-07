@@ -4276,12 +4276,12 @@ async function insertReviewToSupabase(reviewData){
       'Content-Type': 'application/json',
       'apikey': SUPABASE_ANON_KEY,
       'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-      'Prefer': 'return=representation'
+      'Prefer': 'return=minimal' // pending reviews are private, so don't ask for the row back
     },
     body: JSON.stringify(reviewData)
   });
   if(!res.ok){ const e = await res.text(); throw new Error(e); }
-  return res.json();
+  return true;
 }
 
 function starsHtml(rating, size){
@@ -4846,12 +4846,8 @@ async function admUploadImage(){
 
 async function admFetchProducts(){
   try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/products?active=eq.true&order=created_at.desc`, {
-      headers: {
-        'apikey': SUPABASE_ANON_KEY,
-        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
-      }
-    });
+    // Signed-in request, so the dashboard also sees draft and archived products
+    const res = await admFetch(`${SUPABASE_URL}/rest/v1/products?active=eq.true&order=created_at.desc`);
     if(!res.ok) throw new Error(await res.text());
     const data = await res.json();
     // Map Supabase format to local format
@@ -4889,7 +4885,8 @@ async function admFetchProducts(){
     });
     // Sync into global PRODUCTS array
     PRODUCTS.length = 0;
-    admProducts.forEach(x => PRODUCTS.push(x));
+    // The shop itself only shows published products, same as visitors see
+    admProducts.filter(x => (x.status || 'published') === 'published').forEach(x => PRODUCTS.push(x));
     admRenderProducts();
     homeFilter('all', null);
     filteredProducts = [...PRODUCTS];
